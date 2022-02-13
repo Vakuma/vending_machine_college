@@ -1,0 +1,35 @@
+﻿<Window x:Class="Vending.Window.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vending.Window"
+        mc:Ignorable="d"
+        Title="AdminWindow" Height="200" Width="300" ResizeMode="NoResize">
+    <Grid>
+
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBlock Text="Административная панель"
+                       FontSize="20"
+                       HorizontalAlignment="Center"/>
+
+            <Button x:Name="buttonCoins"
+                    Content="Монеты"
+                    Margin="10"
+                    Width="200"
+                    Height="30"
+                    Click="buttonCoins_Click"/>
+
+            <Button x:Name="buttonDrinks"
+                    Content="Напитки"
+                    Margin="5"
+                    Height="30"
+                    Width="200"
+                    Click="buttonDrink_Click"/>
+
+        </StackPanel>
+        
+
+    </Grid>
+</Window>

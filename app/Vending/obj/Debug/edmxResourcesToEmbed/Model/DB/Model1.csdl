@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VendingMachineModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Coin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nominal" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="VendingMachineCoin" Relationship="Self.FK_VendingMachineCoin_Coin" FromRole="Coin" ToRole="VendingMachineCoin" />
+  </EntityType>
+  <EntityType Name="Drink">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Cost" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="VendingMachineDrink" Relationship="Self.FK_VendingMachineDrink_Drink" FromRole="Drink" ToRole="VendingMachineDrink" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="VendingMachine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SecretCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="VendingMachineCoin" Relationship="Self.FK_VendingMachineCoin_VendingMachine" FromRole="VendingMachine" ToRole="VendingMachineCoin" />
+    <NavigationProperty Name="VendingMachineDrink" Relationship="Self.FK_VendingMachineDrink_VendingMachine" FromRole="VendingMachine" ToRole="VendingMachineDrink" />
+  </EntityType>
+  <EntityType Name="VendingMachineCoin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdMachine" Type="Int32" Nullable="false" />
+    <Property Name="IdCoin" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Coin" Relationship="Self.FK_VendingMachineCoin_Coin" FromRole="VendingMachineCoin" ToRole="Coin" />
+    <NavigationProperty Name="VendingMachine" Relationship="Self.FK_VendingMachineCoin_VendingMachine" FromRole="VendingMachineCoin" ToRole="VendingMachine" />
+  </EntityType>
+  <EntityType Name="VendingMachineDrink">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdMachine" Type="Int32" Nullable="false" />
+    <Property Name="IdDrink" Type="Int32" Nullable="false" />
+    <Property Name="Count" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Drink" Relationship="Self.FK_VendingMachineDrink_Drink" FromRole="VendingMachineDrink" ToRole="Drink" />
+    <NavigationProperty Name="VendingMachine" Relationship="Self.FK_VendingMachineDrink_VendingMachine" FromRole="VendingMachineDrink" ToRole="VendingMachine" />
+  </EntityType>
+  <Association Name="FK_VendingMachineCoin_Coin">
+    <End Role="Coin" Type="Self.Coin" Multiplicity="1" />
+    <End Role="VendingMachineCoin" Type="Self.VendingMachineCoin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Coin">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VendingMachineCoin">
+        <PropertyRef Name="IdCoin" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VendingMachineDrink_Drink">
+    <End Role="Drink" Type="Self.Drink" Multiplicity="1" />
+    <End Role="VendingMachineDrink" Type="Self.VendingMachineDrink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Drink">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VendingMachineDrink">
+        <PropertyRef Name="IdDrink" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VendingMachineCoin_VendingMachine">
+    <End Role="VendingMachine" Type="Self.VendingMachine" Multiplicity="1" />
+    <End Role="VendingMachineCoin" Type="Self.VendingMachineCoin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VendingMachine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VendingMachineCoin">
+        <PropertyRef Name="IdMachine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VendingMachineDrink_VendingMachine">
+    <End Role="VendingMachine" Type="Self.VendingMachine" Multiplicity="1" />
+    <End Role="VendingMachineDrink" Type="Self.VendingMachineDrink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VendingMachine">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="VendingMachineDrink">
+        <PropertyRef Name="IdMachine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="VendingMachineEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Coin" EntityType="Self.Coin" />
+    <EntitySet Name="Drink" EntityType="Self.Drink" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="VendingMachine" EntityType="Self.VendingMachine" />
+    <EntitySet Name="VendingMachineCoin" EntityType="Self.VendingMachineCoin" />
+    <EntitySet Name="VendingMachineDrink" EntityType="Self.VendingMachineDrink" />
+    <AssociationSet Name="FK_VendingMachineCoin_Coin" Association="Self.FK_VendingMachineCoin_Coin">
+      <End Role="Coin" EntitySet="Coin" />
+      <End Role="VendingMachineCoin" EntitySet="VendingMachineCoin" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VendingMachineDrink_Drink" Association="Self.FK_VendingMachineDrink_Drink">
+      <End Role="Drink" EntitySet="Drink" />
+      <End Role="VendingMachineDrink" EntitySet="VendingMachineDrink" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VendingMachineCoin_VendingMachine" Association="Self.FK_VendingMachineCoin_VendingMachine">
+      <End Role="VendingMachine" EntitySet="VendingMachine" />
+      <End Role="VendingMachineCoin" EntitySet="VendingMachineCoin" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VendingMachineDrink_VendingMachine" Association="Self.FK_VendingMachineDrink_VendingMachine">
+      <End Role="VendingMachine" EntitySet="VendingMachine" />
+      <End Role="VendingMachineDrink" EntitySet="VendingMachineDrink" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
